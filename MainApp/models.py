@@ -8,8 +8,6 @@ from PIL import Image
 User = get_user_model()
 
 
-class Dalbaed(models.Model):
-    uesrdalban = models.TextField()
 
 
 def get_product_url(obj, viewname):

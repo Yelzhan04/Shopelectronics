@@ -84,8 +84,7 @@ class Product(models.Model):
 
 class BasketProduct(models.Model):
     user = models.ForeignKey('Customer', verbose_name="Buyer", on_delete=models.CASCADE)
-    basket = models.ForeignKey('Basket', verbose_name="Basket", on_delete=models.CASCADE,
-                               related_name='related_product')
+    basket = models.ForeignKey('Basket', verbose_name="Basket", on_delete=models.CASCADE,related_name='related_product')
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
@@ -93,7 +92,7 @@ class BasketProduct(models.Model):
     final_price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Total price')
 
     def __str__(self):
-        return "Product : {} (for basket)".format(self.product.title)
+        return "Product : {} (for basket)".format(self.content_object.title)
 
 
 class Basket(models.Model):
@@ -101,6 +100,8 @@ class Basket(models.Model):
     products = models.ManyToManyField(BasketProduct, blank=True, related_name='related_basket')
     total_product = models.PositiveIntegerField(default=0)
     final_price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Total price')
+    in_order = models.BooleanField(default=False)
+    for_unkown_user = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.id)
